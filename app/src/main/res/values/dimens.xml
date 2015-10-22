@@ -1,3 +1,11 @@
+<!--
+
+    Copyright (c) 2015 FeedHenry Ltd, All Rights Reserved.
+
+    Please refer to your contract with FeedHenry for the software license agreement.
+    If you do not have a contract, you do not have a license to use this software.
+
+-->
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
