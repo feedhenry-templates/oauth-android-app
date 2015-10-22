@@ -6,18 +6,12 @@
  */
 package com.feedhenry.oauth.oauth_android_app;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.feedhenry.sdk.FH;
-import com.feedhenry.sdk.FHActCallback;
-import com.feedhenry.sdk.FHHttpClient;
-import com.feedhenry.sdk.FHResponse;
-import com.feedhenry.sdk.api.FHAuthRequest;
 import com.feedhenry.sdk.api.FHAuthSession;
 
 import butterknife.Bind;
@@ -75,7 +69,7 @@ public class OAuthWelcome extends FHOAuth {
 
     @Override
     void onNotLoggedIn() {
-        response.setText("You are not logged in");
+        response.setText(getString(R.string.not_logged_in_message));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.VISIBLE);
         logOutButton.setVisibility(View.GONE);
@@ -83,7 +77,7 @@ public class OAuthWelcome extends FHOAuth {
 
     @Override
     void onSessionValid(String sessionToken) {
-        response.setText("You are logged in : " + sessionToken);
+        response.setText(String.format(getString(R.string.logged_in_message), sessionToken));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.GONE);
         logOutButton.setVisibility(View.VISIBLE);

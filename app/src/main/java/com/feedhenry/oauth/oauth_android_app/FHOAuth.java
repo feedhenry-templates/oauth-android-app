@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.feedhenry.sdk.FH;
 import com.feedhenry.sdk.FHActCallback;
-import com.feedhenry.sdk.FHHttpClient;
 import com.feedhenry.sdk.FHResponse;
 import com.feedhenry.sdk.api.FHAuthRequest;
 import com.feedhenry.sdk.api.FHAuthSession;
@@ -66,7 +65,7 @@ public abstract class FHOAuth extends AppCompatActivity {
         boolean exists = FHAuthSession.exists();
         if (exists) {
             //user is already authenticated
-            //optionally we can also verify the session is acutally valid from client. This requires network connection.
+            //optionally we can also verify the session is actually valid from client. This requires network connection.
             FHAuthSession.verify(new FHAuthSession.Callback() {
                 @Override
                 public void handleSuccess(final boolean isValid) {
