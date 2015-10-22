@@ -1,3 +1,7 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.12.0"
+
+}
 apply plugin: 'com.android.application'
 
 android {
@@ -17,6 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+license {
+    header rootProject.file('misc/HEADER')
+    strictCheck true
 }
 
 dependencies {
