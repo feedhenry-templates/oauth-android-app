@@ -1,5 +1,4 @@
-<!--
-
+<?xml version="1.0" encoding="utf-8"?><!--
     Copyright 2015 Red Hat, Inc., and individual contributors
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,15 +12,19 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
 -->
-<resources>
-    <string name="app_name">oauth-android-app</string>
-    <string name="log_in">Log In</string>
-    <string name="log_out">Log Out</string>
-    <string name="start_up_message">Please wait, starting up</string>
-    <string name="not_logged_in_message">You are not logged in</string>
-    <string name="logged_in_message">You are logged in : %1$s</string>
-    <string name="title_activity_stub_fhoauth">StubFHOAuthActivity</string>
-</resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.feedhenry.oauth.oauth_android_app.test">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <activity android:name="com.feedhenry.sdk.oauth.FHOAuthIntent" />
+        <activity
+            android:name=".activity.StubFHOAuthActivity"
+            ></activity>
+    </application>
+
+</manifest>

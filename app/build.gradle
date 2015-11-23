@@ -5,15 +5,17 @@ plugins {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.feedhenry.oauth.oauth_android_app"
         minSdkVersion 10
-        targetSdkVersion 23
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.feedhenry.oauth.oauth_android_app.test"
     }
     buildTypes {
         release {
@@ -30,9 +32,17 @@ license {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.feedhenry:fh-android-sdk:3.0.0-SNAPSHOT'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    androidTestCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
 
+
+
+
+    compile 'com.android.support:appcompat-v7:22.2.0'
+
+    compile 'com.feedhenry:fh-android-sdk:2.5.0'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.android.support:design:22.2.0'
 }
