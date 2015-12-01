@@ -34,7 +34,7 @@ public abstract class FHOAuth extends AppCompatActivity {
     private static final String FH_AUTH_POLICY = "Google";  //"Google" should be replaced with policy id you created;
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         init();
     }
@@ -70,7 +70,8 @@ public abstract class FHOAuth extends AppCompatActivity {
 
     protected void checkSession() throws Exception {
 
-        //To check if user is already authenticated
+        //To check if user is already authe
+        // nticated
         boolean exists = FHAuthSession.exists();
         if (exists) {
             //user is already authenticated
@@ -127,19 +128,19 @@ public abstract class FHOAuth extends AppCompatActivity {
     /**
      * Called when Feed Henry is ready to be used.
      */
-    abstract void onFHReady();
+    public abstract void onFHReady();
 
     /**
      * This is called after FH has determined the user is not logged in.
      */
-    abstract void onNotLoggedIn();
+    public abstract void onNotLoggedIn();
 
     /**
      * The user is logged in and has a valid session
      *
      * @param sessionToken this is the token for the current session.  FH will append it to all requests automatically
      */
-    abstract void onSessionValid(String sessionToken);
+    protected abstract void onSessionValid(String sessionToken);
 
 
 }

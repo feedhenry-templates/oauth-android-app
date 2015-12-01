@@ -67,7 +67,7 @@ public class OAuthWelcome extends FHOAuth {
 
 
     @Override
-    void onFHReady() {
+    public void onFHReady() {
         try {
             checkSession();
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class OAuthWelcome extends FHOAuth {
     }
 
     @Override
-    void onNotLoggedIn() {
+    public void onNotLoggedIn() {
         response.setText(getString(R.string.not_logged_in_message));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.VISIBLE);
@@ -85,7 +85,7 @@ public class OAuthWelcome extends FHOAuth {
     }
 
     @Override
-    void onSessionValid(String sessionToken) {
+    public void onSessionValid(String sessionToken) {
         response.setText(String.format(getString(R.string.logged_in_message), sessionToken));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.GONE);
