@@ -40,6 +40,11 @@ public class StubFHOAuthActivity extends FHOAuth {
     }
 
     @Override
+    public void checkSession() throws Exception {
+        super.checkSession();
+    }
+
+    @Override
     public void onSessionValid(String sessionToken) {
         delegate.onSessionValid(sessionToken);
     }

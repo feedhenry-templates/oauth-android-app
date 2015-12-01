@@ -86,7 +86,7 @@ public class FOAuthAbstractClassTest extends ActivityUnitTestCase<StubFHOAuthAct
     }
 
 
-    public void testLoginButtonShowsIfNotLoggedIn() throws IOException {
+    public void testLoginButtonShowsIfNotLoggedIn() throws Exception {
 
         final Delegate delegate = new Delegate();
 
@@ -105,6 +105,8 @@ public class FOAuthAbstractClassTest extends ActivityUnitTestCase<StubFHOAuthAct
         while (!delegate.onFHReadyCalled) {
             assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
         }
+
+        main.checkSession();
 
         assertTrue(delegate.onNotLoggedInCalled);
 
