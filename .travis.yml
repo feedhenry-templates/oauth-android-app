@@ -1,0 +1,41 @@
+language: android
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-23.0.2
+    - android-22
+    - android-23
+    - extra-google-m2repository
+    - extra-android-m2repository
+    - extra-android-support
+    - sys-img-armeabi-v7a-android-10
+    - sys-img-armeabi-v7a-android-15
+    - sys-img-armeabi-v7a-android-16
+    - sys-img-armeabi-v7a-android-17
+    - sys-img-armeabi-v7a-android-18
+    - sys-img-armeabi-v7a-android-19
+    - sys-img-armeabi-v7a-android-21
+    - sys-img-armeabi-v7a-android-22
+
+env:
+  matrix:
+    - ANDROID_EMULATOR=android-10 ANDROID_ABI=armeabi
+    - ANDROID_EMULATOR=android-15 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-16 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-17 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-18 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-19 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-21 ANDROID_ABI=armeabi-v7a
+    - ANDROID_EMULATOR=android-22 ANDROID_ABI=armeabi-v7a
+
+before_script:
+  - echo no | android create avd --force -n test -t $ANDROID_EMULATOR --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
