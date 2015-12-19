@@ -112,7 +112,7 @@ public class OAuthWelcomeTest extends ActivityUnitTestCase<OAuthWelcome> {
         }
 
         RecordedRequest request = mockWebServer.takeRequest(5, TimeUnit.SECONDS);
-        assertEquals("/box/srv/1.1/verifysession", request.getPath());
+        assertEquals("/box/srv/1.1/admin/authpolicy/verifysession", request.getPath());
         assertEquals("{\"sessionToken\":\"testToken\"}", request.getBody().readString(Charset.forName("UTF-8")));
 
 
