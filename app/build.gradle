@@ -5,18 +5,23 @@ plugins {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.feedhenry.oauth.oauth_android_app"
         minSdkVersion 10
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testApplicationId "com.feedhenry.oauth.oauth_android_app.test"
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -30,19 +35,21 @@ license {
     strictCheck true
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:support-annotations:23.1.1'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:runner:0.3'
-    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test:runner:0.4'
+    androidTestCompile 'com.android.support.test:rules:0.4'
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
 
-
-
-
-    compile 'com.android.support:appcompat-v7:22.2.0'
-
-    compile 'com.feedhenry:fh-android-sdk:2.5.0'
+    compile 'junit:junit:4.12'
+    compile 'com.feedhenry:fh-android-sdk:3.0.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.android.support:design:22.2.0'
 }
