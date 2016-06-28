@@ -13,8 +13,6 @@ allprojects {
     repositories {
         jcenter()
         mavenLocal()
-        maven { url "https://github.com/feedhenry/fh-android-sdk-repository/raw/master/releases" }
-
     }
 }
 
