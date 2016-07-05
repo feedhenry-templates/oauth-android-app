@@ -1,5 +1,8 @@
 language: android
 
+sudo: required
+dist: precise
+
 jdk:
   - oraclejdk8
   - oraclejdk7
