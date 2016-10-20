@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Red Hat, Inc., and individual contributors
- * <p>
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,21 +15,13 @@
  */
 package com.feedhenry.helloworld.test;
 
-
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.res.AssetManager;
-import android.os.Bundle;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.LargeTest;
-import android.support.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.ActivityUnitTestCase;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 
-import com.feedhenry.helloworld.test.activity.StubFHOAuthActivity;
 import com.feedhenry.oauth.oauth_android_app.OAuthWelcome;
 import com.feedhenry.oauth.oauth_android_app.R;
 import com.feedhenry.sdk.FH;
@@ -54,11 +46,9 @@ import java.util.concurrent.TimeUnit;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
-
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class OAuthWelcomeTest {
-
 
     private MockWebServer mockWebServer = null;
     private long startTime;
@@ -67,7 +57,6 @@ public class OAuthWelcomeTest {
     @Rule
     public ActivityTestRule<OAuthWelcome> mActivityRule = new ActivityTestRule<>(
             OAuthWelcome.class, false, false);
-
 
     @Before
     public void setUp() throws Exception {
@@ -126,7 +115,6 @@ public class OAuthWelcomeTest {
         main.finish();
     }
 
-
     @Test
     public void testLogoutButtonShowsIfLoggedIn() throws IOException, InterruptedException {
 
@@ -141,7 +129,6 @@ public class OAuthWelcomeTest {
 //                    main.onStart();
 //                });
 //
-
         while (main.findViewById(R.id.log_out).getVisibility() == View.GONE) {
             Assert.assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
         }
@@ -152,6 +139,5 @@ public class OAuthWelcomeTest {
 
         main.finish();
     }
-
 
 }
