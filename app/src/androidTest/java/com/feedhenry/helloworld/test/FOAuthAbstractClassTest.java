@@ -16,44 +16,83 @@
 package com.feedhenry.helloworld.test;
 
 
+import android.app.Application;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.test.ActivityUnitTestCase;
-import android.view.ContextThemeWrapper;
-
+import android.content.res.AssetManager;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.feedhenry.helloworld.test.activity.StubFHOAuthActivity;
-import com.feedhenry.oauth.oauth_android_app.R;
+import com.feedhenry.sdk.FH;
+import com.feedhenry.sdk.FHActCallback;
+import com.feedhenry.sdk.FHResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
-public class FOAuthAbstractClassTest extends ActivityUnitTestCase<StubFHOAuthActivity> {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
 
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class FOAuthAbstractClassTest {
+
+    Context context;
 
     private MockWebServer mockWebServer = null;
     private long startTime;
-    public FOAuthAbstractClassTest() {
-        super(StubFHOAuthActivity.class);
-    }
 
+    @Rule
+    public ActivityTestRule<StubFHOAuthActivity> mActivityRule = new ActivityTestRule<>(
+            StubFHOAuthActivity.class, false, false);
+
+
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mockWebServer = new MockWebServer();
         mockWebServer.start(9000);
-        ContextThemeWrapper context = new AlternateAssetsContextWrapper(getInstrumentation().getTargetContext(), R.style.AppTheme, getInstrumentation().getContext());
-        setActivityContext(context);
+        context = new ContextWrapper(InstrumentationRegistry.getTargetContext()) {
+            @Override
+            public AssetManager getAssets() {
+                return InstrumentationRegistry.getContext().getAssets();
+            }
+        };
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        FH.init(context, new FHActCallback() {
+            @Override
+            public void success(FHResponse pResponse) {
+                latch.countDown();
+            }
+
+            @Override
+            public void fail(FHResponse pResponse) {
+                latch.countDown();
+            }
+        });
+        latch.await(5, TimeUnit.SECONDS);
         startTime = System.currentTimeMillis();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        try{
+    @After
+    public void tearDown() throws Exception {
+        try {
             mockWebServer.shutdown();
         } catch (Exception ignore) {
 
@@ -61,64 +100,53 @@ public class FOAuthAbstractClassTest extends ActivityUnitTestCase<StubFHOAuthAct
         Thread.sleep(5000);
     }
 
+    @Test
     public void testActivityCallsFHInitOnStartup() throws IOException {
 
-        final Delegate delegate = new Delegate();
+        Delegate delegate = new Delegate();
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                StubFHOAuthActivity activity = startActivity(new Intent(), Bundle.EMPTY, null);
-                activity.setCallbackDelegate(delegate);
-                activity.onStart();
-            }
+        StubFHOAuthActivity activity = mActivityRule.launchActivity(new Intent(context, StubFHOAuthActivity.class));
+        getInstrumentation().runOnMainSync(() -> {
+            activity.setCallbackDelegate(delegate);
+            activity.onStart();
         });
 
-
-        StubFHOAuthActivity main = getActivity();
-
         while (!delegate.onFHReadyCalled) {
-            assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
+            Assert.assertTrue("Timeout after 15 seconds", System.currentTimeMillis() - startTime < 15000);
         }
 
-        main.finish();
+        activity.finish();
 
     }
 
-
+    @Test
     public void testLoginButtonShowsIfNotLoggedIn() throws Exception {
 
-        final Delegate delegate = new Delegate();
+        Delegate delegate = new Delegate();
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                StubFHOAuthActivity activity = startActivity(new Intent(), Bundle.EMPTY, null);
-                activity.setCallbackDelegate(delegate);
-                activity.onStart();
-            }
+        StubFHOAuthActivity activity = mActivityRule.launchActivity(new Intent(context, StubFHOAuthActivity.class));
+        getInstrumentation().runOnMainSync(() -> {
+            activity.setCallbackDelegate(delegate);
+            activity.onStart();
         });
 
-
-        StubFHOAuthActivity main = getActivity();
-
         while (!delegate.onFHReadyCalled) {
-            assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
+            Assert.assertTrue("Timeout after 15 seconds", System.currentTimeMillis() - startTime < 15000);
         }
 
-        main.checkSession();
+        activity.checkSession();
 
-        assertTrue(delegate.onNotLoggedInCalled);
+        Assert.assertTrue(delegate.onNotLoggedInCalled);
 
-        main.finish();
+        activity.finish();
     }
 
 
-    private static class Delegate implements  StubFHOAuthActivity.CallbackDelegate {
+    private static class Delegate implements StubFHOAuthActivity.CallbackDelegate {
 
         boolean onFHReadyCalled = false;
-        boolean onNotLoggedInCalled  = false;
-        boolean onSessionValidCalled  = false;
+        boolean onNotLoggedInCalled = false;
+        boolean onSessionValidCalled = false;
 
 
         @Override
