@@ -32,21 +32,25 @@ import butterknife.OnClick;
  */
 public class OAuthWelcome extends FHOAuth {
 
-    @Bind(R.id.repsonse) TextView response;
-    @Bind(R.id.progress_bar) View progressBar;
-    @Bind(R.id.log_in) View logInButton;
-    @Bind(R.id.log_out) View logOutButton;
+    @Bind(R.id.repsonse)
+    TextView response;
+    @Bind(R.id.progress_bar)
+    View progressBar;
+    @Bind(R.id.log_in)
+    View logInButton;
+    @Bind(R.id.log_out)
+    View logOutButton;
 
 
     private static final String TAG = "FHAuthActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oauth_welcome);
         ButterKnife.bind(this);
-    }
 
+    }
 
     @OnClick(R.id.log_in)
     public void login() {
@@ -78,6 +82,14 @@ public class OAuthWelcome extends FHOAuth {
 
     @Override
     public void onNotLoggedIn() {
+
+        if (response == null) { //Testing context doesn't work with butterknife correctly
+            response = (TextView) findViewById(R.id.repsonse);
+            progressBar = findViewById(R.id.progress_bar);
+            logInButton = findViewById(R.id.log_in);
+            logOutButton = findViewById(R.id.log_out);
+        }
+
         response.setText(getString(R.string.not_logged_in_message));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.VISIBLE);
@@ -86,7 +98,18 @@ public class OAuthWelcome extends FHOAuth {
 
     @Override
     public void onSessionValid(String sessionToken) {
-        response.setText(String.format(getString(R.string.logged_in_message), sessionToken));
+        if (response == null) { //Testing context doesn't work with butterknife correctly
+            response = (TextView) findViewById(R.id.repsonse);
+            progressBar = findViewById(R.id.progress_bar);
+            logInButton = findViewById(R.id.log_in);
+            logOutButton = findViewById(R.id.log_out);
+        }
+
+        response.setText(String.format(
+
+                getString(R.string.logged_in_message), sessionToken
+
+        ));
         progressBar.setVisibility(View.GONE);
         logInButton.setVisibility(View.GONE);
         logOutButton.setVisibility(View.VISIBLE);

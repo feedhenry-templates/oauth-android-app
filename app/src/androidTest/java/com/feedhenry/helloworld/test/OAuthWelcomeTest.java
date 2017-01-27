@@ -15,49 +15,80 @@
  */
 package com.feedhenry.helloworld.test;
 
-
+import android.content.ContextWrapper;
 import android.content.Intent;
-import android.os.Bundle;
-import android.test.ActivityUnitTestCase;
-import android.view.ContextThemeWrapper;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
 import com.feedhenry.oauth.oauth_android_app.OAuthWelcome;
 import com.feedhenry.oauth.oauth_android_app.R;
+import com.feedhenry.sdk.FH;
+import com.feedhenry.sdk.FHActCallback;
+import com.feedhenry.sdk.FHResponse;
 import com.feedhenry.sdk.utils.DataManager;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class OAuthWelcomeTest extends ActivityUnitTestCase<OAuthWelcome> {
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 
-
+@RunWith(AndroidJUnit4.class)
+@LargeTest
+public class OAuthWelcomeTest {
 
     private MockWebServer mockWebServer = null;
     private long startTime;
-    public OAuthWelcomeTest() {
-        super(OAuthWelcome.class);
-    }
+    private ContextWrapper context;
 
+    @Rule
+    public ActivityTestRule<OAuthWelcome> mActivityRule = new ActivityTestRule<>(
+            OAuthWelcome.class, false, false);
+
+    @Before
     public void setUp() throws Exception {
-        super.setUp();
         mockWebServer = new MockWebServer();
         mockWebServer.start(9000);
-        ContextThemeWrapper context = new AlternateAssetsContextWrapper(getInstrumentation().getTargetContext(), R.style.AppTheme, getInstrumentation().getContext());
-        setActivityContext(context);
+
+        context = new AlternateAssetsContextWrapper(getInstrumentation().getTargetContext(), R.style.AppTheme, getInstrumentation().getContext());
+
+        CountDownLatch latch = new CountDownLatch(1);
+
+        FH.init(context, new FHActCallback() {
+            @Override
+            public void success(FHResponse pResponse) {
+                latch.countDown();
+            }
+
+            @Override
+            public void fail(FHResponse pResponse) {
+                latch.countDown();
+            }
+        });
+        latch.await(5, TimeUnit.SECONDS);
+
+
         startTime = System.currentTimeMillis();
         DataManager.init(context);
         DataManager.getInstance().remove("sessionToken");
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        try{
+    @After
+    public void tearDown() throws Exception {
+        try {
             mockWebServer.shutdown();
         } catch (Exception ignore) {
 
@@ -65,59 +96,48 @@ public class OAuthWelcomeTest extends ActivityUnitTestCase<OAuthWelcome> {
         Thread.sleep(5000);
     }
 
+    @Test
     public void testLoginButtonShowsIfNotLoggedIn() throws IOException {
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                OAuthWelcome activity = startActivity(new Intent(), Bundle.EMPTY, null);
+        OAuthWelcome main = mActivityRule.launchActivity(new Intent(context, OAuthWelcome.class));
+//
+//        getInstrumentation().runOnMainSync(
+//            () -> {
+//                main.onCreate(new Bundle());
+//                main.onStart();
+//            });
 
-                activity.onStart();
-            }
-        });
-
-
-        OAuthWelcome main = getActivity();
 
         while (main.findViewById(R.id.log_in).getVisibility() == View.GONE) {
-            assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
+            Assert.assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
         }
 
         main.finish();
     }
 
-
-
-
+    @Test
     public void testLogoutButtonShowsIfLoggedIn() throws IOException, InterruptedException {
 
         DataManager.getInstance().save("sessionToken", "testToken");
         //Code will call verify which should call the server
         mockWebServer.enqueue(new MockResponse().setResponseCode(200).setBody("{\"isValid\":\"true\"}"));
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                OAuthWelcome activity = startActivity(new Intent(), Bundle.EMPTY, null);
-
-                activity.onStart();
-            }
-        });
-
-
-        OAuthWelcome main = getActivity();
-
+        OAuthWelcome main = mActivityRule.launchActivity(new Intent(context, OAuthWelcome.class));
+//
+//        getInstrumentation().runOnMainSync(
+//                () -> {
+//                    main.onStart();
+//                });
+//
         while (main.findViewById(R.id.log_out).getVisibility() == View.GONE) {
-            assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
+            Assert.assertTrue("Timeout after 5 seconds", System.currentTimeMillis() - startTime < 5000);
         }
 
         RecordedRequest request = mockWebServer.takeRequest(5, TimeUnit.SECONDS);
-        assertEquals("/box/srv/1.1/admin/authpolicy/verifysession", request.getPath());
-        assertEquals("{\"sessionToken\":\"testToken\"}", request.getBody().readString(Charset.forName("UTF-8")));
-
+        Assert.assertEquals("/box/srv/1.1/admin/authpolicy/verifysession", request.getPath());
+        Assert.assertEquals("{\"sessionToken\":\"testToken\"}", request.getBody().readString(Charset.forName("UTF-8")));
 
         main.finish();
     }
-
 
 }
