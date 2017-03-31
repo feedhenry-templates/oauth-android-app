@@ -22,7 +22,7 @@ If you do not have access to a RHMAP instance, you can sign up for a free instan
 
 This source repository may be imported into any project by using the "Import Existing App" feature when you add a new client app to a project.  It may be imported into any project.
 
-**If you do not name your AuthPolicy "Google" you will have to edit [FHOauth](app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java) and set "FH_AUTH_POLICY" field to your auth policy's name.**
+**If you do not name your AuthPolicy "Google" you will have to edit `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java` and set "FH_AUTH_POLICY" field to your auth policy's name.**
 
 ### Local Clone (ideal for Open Source Development)
 If you wish to contribute to this template, the following information may be helpful; otherwise, RHMAP and its build facilities are the preferred solution.
@@ -33,16 +33,16 @@ If you wish to contribute to this template, the following information may be hel
  * Android SDK : 22+ or newer
 
 ## Build instructions
- * Edit [fhconfig.properties](app/src/main/assets/fhconfig.properties) to include the relevant information from RHMAP.  
+ * Edit `app/src/main/assets/fhconfig.properties` to include the relevant information from RHMAP.  
  * Attach running Android Device with API 16+ running  
- * Edit [FHOauth](app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java) and set "FH_AUTH_POLICY" to your auth policy if you did not name yoru policy "Google".
+ * Edit `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java` and set "FH_AUTH_POLICY" to your auth policy if you did not name yoru policy "Google".
  * ./gradlew installDebug  
  
 ## How does it work?
 
 ### Checking if a user is logged in
 
-After having [initialized](app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java#L48) the SDK, you may use `FHAuthSession` to check a user's logged in status.  `FHAuthSession.getToken()` will display a user's cached token and `FHAuthSession.verify` can be used to ensure the session is still valid on the server.
+After having called `init()` in `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java` to initialize the SDK, you may use `FHAuthSession` to check a user's logged in status.  `FHAuthSession.getToken()` will display a user's cached token and `FHAuthSession.verify` can be used to ensure the session is still valid on the server.
 
 ```java
 //To check if user is already authenticated
@@ -75,7 +75,7 @@ if (exists) {
 
 ### Logging a User In
 
-The following code is taken from [FHOauth.doOAuth()](app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java#101).
+The following code is taken from `doOAuth()` in `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java`.
 
 ```java
 protected void doOAuth() {
