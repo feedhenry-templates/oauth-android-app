@@ -56,12 +56,12 @@ if (exists) {
             if (isValid)
                 //User is logged in, use FHAuthSession.getToken() to view the token.
             else
-            	//User is not logged in
+              //User is not logged in
         }
 
         @Override
         public void handleError(FHResponse resp) {
-		/* User there was an error verifying the user's session.
+    /* User there was an error verifying the user's session.
                 Log the error and perform a log-in as if the user were 
                 not logged in.*/
         }
@@ -79,29 +79,29 @@ The following code is taken from `doOAuth()` in `app/src/main/java/com/feedhenry
 
 ```java
 protected void doOAuth() {
-	try {
-	    FHAuthRequest authRequest = FH.buildAuthRequest();
-	    authRequest.setPresentingActivity(this);/*this is an instance of an Activity*/
-	    authRequest.setAuthPolicyId(FH_AUTH_POLICY);
-	    authRequest.executeAsync(new FHActCallback() {
+  try {
+      FHAuthRequest authRequest = FH.buildAuthRequest();
+      authRequest.setPresentingActivity(this);/*this is an instance of an Activity*/
+      authRequest.setAuthPolicyId(FH_AUTH_POLICY);
+      authRequest.executeAsync(new FHActCallback() {
 
-		@Override
-		public void success(FHResponse resp) {
-		    /*  The user is successfully logged in.
+    @Override
+    public void success(FHResponse resp) {
+        /*  The user is successfully logged in.
                 Use FHAuthSession.getToken() to view the token.
                 The OAuth details including user account information 
                 are in the body of resp.
             */
-		}
+    }
 
-		@Override
-		public void fail(FHResponse resp) {
+    @Override
+    public void fail(FHResponse resp) {
             /* User failed to log in.*/
-		}
-	    });
-	} catch (Exception e) {
+    }
+      });
+  } catch (Exception e) {
        /* there was an exception.  Log the exception an dupdate the UI as appropriate.*/
-	}
+  }
 }
 ```
 
