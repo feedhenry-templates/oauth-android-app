@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.feedhenry.sdk.api.FHAuthSession;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -32,13 +32,13 @@ import butterknife.OnClick;
  */
 public class OAuthWelcome extends FHOAuth {
 
-    @Bind(R.id.repsonse)
+    @BindView(R.id.repsonse)
     TextView response;
-    @Bind(R.id.progress_bar)
+    @BindView(R.id.progress_bar)
     View progressBar;
-    @Bind(R.id.log_in)
+    @BindView(R.id.log_in)
     View logInButton;
-    @Bind(R.id.log_out)
+    @BindView(R.id.log_out)
     View logOutButton;
 
 
@@ -49,11 +49,11 @@ public class OAuthWelcome extends FHOAuth {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oauth_welcome);
         ButterKnife.bind(this);
-
     }
 
     @OnClick(R.id.log_in)
     public void login() {
+
         doOAuth();
     }
 

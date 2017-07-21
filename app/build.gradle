@@ -5,27 +5,20 @@ plugins {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.0"
 
     defaultConfig {
         applicationId "com.feedhenry.oauth.oauth_android_app"
-        minSdkVersion 10
-        targetSdkVersion 24
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         testApplicationId "com.feedhenry.oauth.oauth_android_app.test"
 
-        jackOptions {
-            enabled true
-        }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     lintOptions {
         abortOnError false
@@ -67,5 +60,6 @@ dependencies {
     compile 'com.feedhenry:fh-android-sdk:3.3.0'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:design:24.2.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
 }

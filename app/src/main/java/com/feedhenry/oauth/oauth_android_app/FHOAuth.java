@@ -31,7 +31,7 @@ import com.feedhenry.sdk.api.FHAuthSession;
 public abstract class FHOAuth extends AppCompatActivity {
 
     private static final String TAG = "FHAuthActivity";
-    private static final String FH_AUTH_POLICY = "Google";  //"Google" should be replaced with policy id you created;
+    private static final String FH_AUTH_POLICY = "Google_Android";  //"Google" should be replaced with policy id you created;
 
     @Override
     public void onStart() {
