@@ -2,31 +2,19 @@ plugins {
     id "com.github.hierynomus.license" version "0.12.0"
 
 }
-apply plugin: 'com.android.application'
+
+apply plugin: "com.android.application"
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
-        applicationId "com.feedhenry.oauth.oauth_android_app"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        testApplicationId "com.feedhenry.oauth.oauth_android_app.test"
-
-    }
-
-
-    lintOptions {
-        abortOnError false
-    }
-
-    packagingOptions {
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
+        applicationId "com.feedhenry.oauth"
     }
 
     compileOptions {
@@ -37,35 +25,47 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+
+    packagingOptions {
+        exclude "META-INF/NOTICE"
+        exclude "META-INF/LICENSE"
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
 license {
-    header rootProject.file('misc/HEADER')
+    header rootProject.file("misc/HEADER")
     strictCheck true
 }
 
 configurations.all {
     resolutionStrategy {
-        force 'com.android.support:support-annotations:26.0.0'
+        force "com.android.support:support-annotations:26.0.0"
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile 'com.android.support.test:runner:1.0.0'
-    androidTestCompile 'com.android.support.test:rules:1.0.0'
-    androidTestCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
-    androidTestCompile 'junit:junit:4.12'
-    androidTestCompile 'org.mockito:mockito-core:1.10.19'
+ext {
+    android_support_library = "26.1.0"
+}
 
-    androidTestCompile 'junit:junit:4.12'
-    compile 'com.feedhenry:fh-android-sdk:3.3.3'
-    compile 'com.android.support:appcompat-v7:26.0.0'
-    compile 'com.android.support:design:26.0.0'
-    compile 'com.jakewharton:butterknife:8.8.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
+dependencies {
+    androidTestCompile "com.android.support.test:runner:1.0.1"
+    androidTestCompile "com.android.support.test:rules:1.0.1"
+    androidTestCompile "com.squareup.okhttp:mockwebserver:2.4.0"
+    androidTestCompile "junit:junit:4.12"
+    androidTestCompile "org.mockito:mockito-core:1.10.19"
+
+    androidTestCompile "junit:junit:4.12"
+    implementation "com.feedhenry:fh-android-sdk:4.0.0"
+    implementation "com.android.support:appcompat-v7:$android_support_library"
+    implementation "com.android.support:design:$android_support_library"
+    implementation "com.jakewharton:butterknife:8.8.0"
+    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.0"
 
 }

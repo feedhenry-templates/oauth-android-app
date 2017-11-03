@@ -22,7 +22,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
-import com.feedhenry.oauth.oauth_android_app.OAuthWelcome;
+import com.feedhenry.oauth.OAuthWelcome;
 import com.feedhenry.oauth.oauth_android_app.R;
 import com.feedhenry.sdk.FH;
 import com.feedhenry.sdk.FHActCallback;
