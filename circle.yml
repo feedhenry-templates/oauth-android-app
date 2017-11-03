@@ -22,13 +22,5 @@ dependencies:
     - ~/.gradle
 
 test:
-  pre:
-    # Launch the emulator
-    - emulator -avd $ANDROID_EMULATOR -no-window:
-        background: true
-        parallel: true
-    # Wait to emulator get ready
-    - circle-android wait-for-boot
-
   override:
-    - ./gradlew build connectedCheck
+    - ./gradlew clean build
