@@ -13,17 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feedhenry.oauth.oauth_android_app;
+package com.feedhenry.oauth;
 
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Toast;
+import android.support.v7.app.*;
+import android.util.*;
+import android.widget.*;
 
-import com.feedhenry.sdk.FH;
-import com.feedhenry.sdk.FHActCallback;
-import com.feedhenry.sdk.FHResponse;
-import com.feedhenry.sdk.api.FHAuthRequest;
-import com.feedhenry.sdk.api.FHAuthSession;
+import com.feedhenry.sdk.*;
+import com.feedhenry.sdk.api.*;
 
 /**
  * This abstract class contains all of the important FHOAuth code.

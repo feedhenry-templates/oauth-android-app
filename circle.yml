@@ -3,8 +3,8 @@ machine:
     version: oraclejdk8
   environment:
     QEMU_AUDIO_DRV: none
-    ANDROID_SDK: "android-25"
-    BUILD_TOOLS: "25.0.3"
+    ANDROID_SDK: "android-26"
+    BUILD_TOOLS: "26.0.2"
     ANDROID_EMULATOR: "circleci-android24"
     ANDROID_ABI: "armeabi-v7a"
 
@@ -22,13 +22,5 @@ dependencies:
     - ~/.gradle
 
 test:
-  pre:
-    # Launch the emulator
-    - emulator -avd $ANDROID_EMULATOR -no-window:
-        background: true
-        parallel: true
-    # Wait to emulator get ready
-    - circle-android wait-for-boot
-
   override:
-    - ./gradlew build connectedCheck
+    - ./gradlew clean build

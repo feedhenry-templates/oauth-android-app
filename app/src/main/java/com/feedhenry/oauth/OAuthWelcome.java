@@ -13,32 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feedhenry.oauth.oauth_android_app;
+package com.feedhenry.oauth;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
-import com.feedhenry.sdk.api.FHAuthSession;
+import com.feedhenry.sdk.api.*;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.*;
 
 /**
  * This class setups up the UI of the application
  */
 public class OAuthWelcome extends FHOAuth {
 
-    @Bind(R.id.repsonse)
+    @BindView(R.id.repsonse)
     TextView response;
-    @Bind(R.id.progress_bar)
+    @BindView(R.id.progress_bar)
     View progressBar;
-    @Bind(R.id.log_in)
+    @BindView(R.id.log_in)
     View logInButton;
-    @Bind(R.id.log_out)
+    @BindView(R.id.log_out)
     View logOutButton;
 
 
@@ -49,11 +46,11 @@ public class OAuthWelcome extends FHOAuth {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oauth_welcome);
         ButterKnife.bind(this);
-
     }
 
     @OnClick(R.id.log_in)
     public void login() {
+
         doOAuth();
     }
 

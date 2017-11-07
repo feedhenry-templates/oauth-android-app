@@ -35,7 +35,7 @@ If you wish to contribute to this template, the following information may be hel
 ## Build instructions
  * Edit `app/src/main/assets/fhconfig.properties` to include the relevant information from RHMAP.  
  * Attach running Android Device with API 16+ running  
- * Edit `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java` and set "FH_AUTH_POLICY" to your auth policy if you did not name yoru policy "Google".
+ * Edit `app/src/main/java/com/feedhenry/oauth/oauth_android_app/FHOAuth.java` and set "FH_AUTH_POLICY" to your auth policy if you did not name your policy "Google".
  * ./gradlew installDebug  
  
 ## How does it work?
